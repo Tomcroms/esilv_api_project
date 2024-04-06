@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import re
+import time
+import random
 
 app = Flask(__name__)
 
@@ -10,20 +13,57 @@ articles = []
 @app.route('/get_data', methods=['GET'])
 def get_data():
     global articles
-    url = "https://www.artificialintelligence-news.com/"
+    articles = []
+
+    base_url = "https://www.actuia.com/"
+    url = base_url
     response = requests.get(url)
+
+    time.sleep(random.uniform(1, 2))
     soup = BeautifulSoup(response.text, 'html.parser')
-    article_elements = soup.find_all('h3', class_='entry-title td-module-title')[:10]
-    articles = [
-        {
-            'number': i+1, 
-            'title': article.find('a').get_text(strip=True), 
-            'publication_date': datetime.now().strftime('%Y-%m-%d'), 
-            'content': article.find('a')['href']
-        } 
-        for i, article in enumerate(article_elements)
-    ]
-    return jsonify({'message': 'Data fetched successfully', 'articles_fetched': len(articles)})
+
+
+    a_elements = soup.find_all('a', href=True)
+    
+    
+    filtered_a_elements = [a for a in a_elements if "actualite" in a['href']]
+    print(filtered_a_elements)
+
+    i=0
+    for a in filtered_a_elements:
+        print(i)
+        i+=1
+        if(i>10):
+            break
+        article_url = a['href']
+        
+        article_response = requests.get(article_url)
+        article_soup = BeautifulSoup(article_response.text, 'html.parser')
+
+        
+        h1 = article_soup.find('h1')
+        if h1:
+            print("h1")
+            title = h1.get_text(strip=True)
+            articles.append({
+                'title': title
+            })
+
+
+            publication_date =  "a faire"
+            article_element = article_soup.find('article')
+            paragraphs = article_element.find_all('p') if article_element else []
+            content = ' '.join(p.get_text(strip=True) for p in paragraphs)
+
+            articles.append({
+                'title': title,
+                'publication_date': publication_date,
+                'content': content,
+                'url': article_url
+            })
+
+    return jsonify({'message': 'Données récupérées avec succès', 'articles': articles})
+
 
 @app.route('/articles', methods=['GET'])
 def list_articles():
