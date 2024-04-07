@@ -38,3 +38,24 @@ Même en forçant le codage en utf-8 les caractères spéciaux ne s'affiche pas 
 Cela ne nuit donc pas à l'étude des articles. 
 
 On  utilise la bibliothèque TextBlob pour le ml et l'étude des sentiments, cela se base sur une liste de mots pré établies pour évaluer le sentiment général de l'article. 
+
+
+### Explications du code Python global
+
+Ce code Python est une application web construite avec Flask.
+
+Fonctionnalités principales :
+Endpoint /get_data : Récupère des articles à partir du site Web spécifié en utilisant BeautifulSoup pour analyser le HTML. Il extrait les liens des articles et récupère le titre, la date de publication et le contenu de chaque article. Les données sont stockées dans une liste d'articles.
+
+Endpoint /articles : Renvoie une liste des articles disponibles, avec des informations telles que le numéro de l'article, le titre et la date de publication.
+
+Endpoint /article/<number> : Accéder au contenu d'un article spécifique en fournissant son numéro. Si l'article existe, ses détails sont renvoyés ; sinon, un message d'erreur est retourné.
+
+Endpoint /ml : Effectuer une analyse en utilisant du ML sur les articles. Elle peut être utilisée pour effectuer une analyse de sentiment ou d'autres traitements en fonction des besoins. L'analyse peut être effectuée sur tous les articles ou sur un article spécifique en fournissant son numéro.
+
+
+Détails techniques :
+Le code utilise les bibliothèques Flask, Requests et BeautifulSoup pour gérer les requêtes HTTP et effectuer le scraping.
+Les données des articles sont stockées dans une liste articles.
+Le scraping est limité aux premiers 10 articles trouvés sur le site.
+L'application utilise des délais aléatoires entre les requêtes pour éviter d'être bloquée par le site Web en question.

@@ -106,6 +106,10 @@ def get_article(number):
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
 
+
+# Utilisation de ML 
+# -> Analyse de sentiment des articles grâce à la librairie TextBlob
+# le résultat est un nombre entre -1 et 1, où -1 signifie un sentiment négatif et 1 signifie un sentiment plutôt positif 
 @app.route('/ml', defaults={'number': None}, methods=['GET'])
 @app.route('/ml/<int:number>', methods=['GET'])
 def analyze_sentiment(number):
@@ -115,18 +119,44 @@ def analyze_sentiment(number):
         sentiments = []
         for article in articles:
             analysis = TextBlob(article['content'])
+            sentiment_score = analysis.sentiment.polarity
+            # Interprétation du score de sentiment
+            if sentiment_score < -0.5:
+                sentiment_label = 'Très négatif'
+            elif sentiment_score < 0:
+                sentiment_label = 'Négatif'
+            elif sentiment_score == 0:
+                sentiment_label = 'Neutre'
+            elif sentiment_score <= 0.5:
+                sentiment_label = 'Positif'
+            else:
+                sentiment_label = 'Très positif'
             sentiments.append({
                 'title': article['title'],
-                'sentiment': analysis.sentiment.polarity
+                'sentiment_score': sentiment_score,
+                'sentiment_label': sentiment_label
             })
         response = jsonify({'message': 'Analyse de sentiment pour tous les articles', 'sentiments': sentiments})
     else:
         # Applique l'analyse de sentiment à un article spécifique
         if 1 <= number <= len(articles):
             analysis = TextBlob(articles[number - 1]['content'])
+            sentiment_score = analysis.sentiment.polarity
+            # Interprétation du score de sentiment
+            if sentiment_score < -0.5:
+                sentiment_label = 'Très négatif'
+            elif sentiment_score < 0:
+                sentiment_label = 'Négatif'
+            elif sentiment_score == 0:
+                sentiment_label = 'Neutre'
+            elif sentiment_score <= 0.5:
+                sentiment_label = 'Positif'
+            else:
+                sentiment_label = 'Très positif'
             response = jsonify({
                 'title': articles[number - 1]['title'],
-                'sentiment': analysis.sentiment.polarity,
+                'sentiment_score': sentiment_score,
+                'sentiment_label': sentiment_label,
                 'message': 'Analyse de sentiment pour l\'article spécifié'
             })
         else:
@@ -135,7 +165,6 @@ def analyze_sentiment(number):
 
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
-
 
 
 if __name__ == '__main__':
