@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 articles = []
 
+
+# Récupère une liste d'articles sur le site de actuia
 @app.route('/get_data', methods=['GET'])
 def get_data():
     global articles
@@ -64,11 +66,13 @@ def get_data():
 
     return jsonify({'message': 'Données récupérées avec succès', 'articles': articles})
 
-
+# Affiche des informations sur les articles (numéro, titre, date de publication)
 @app.route('/articles', methods=['GET'])
 def list_articles():
     return jsonify([{'number': article['number'], 'title': article['title'], 'publication_date': article['publication_date']} for article in articles])
 
+
+# Accède au contenu d'un article spécifié (avec son numéro)
 @app.route('/article/<int:number>', methods=['GET'])
 def get_article(number):
     article = next((article for article in articles if article['number'] == number), None)
@@ -77,6 +81,8 @@ def get_article(number):
     else:
         return jsonify({'message': 'Article not found'}), 404
 
+
+# ML analysis
 @app.route('/ml', defaults={'number': None}, methods=['GET'])
 @app.route('/ml/<int:number>', methods=['GET'])
 def ml_analysis(number):
@@ -88,6 +94,8 @@ def ml_analysis(number):
             return jsonify({'message': f'ML analysis for article {number}'})
         else:
             return jsonify({'message': 'Article not found for ML analysis'}), 404
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
