@@ -55,7 +55,8 @@ Endpoint /ml : Effectuer une analyse en utilisant du ML sur les articles. Elle p
 
 
 Détails techniques :
-Ce code utilise les bibliothèques Flask, Requests et BeautifulSoup pour gérer les requêtes HTTP et effectuer le scraping.
-Les données des articles sont stockées dans une liste articles.
-Le scraping est limité aux premiers 10 articles trouvés sur le site.
-L'application utilise des délais aléatoires entre les requêtes pour éviter d'être bloquée par le site Web en question.
+Utilisation de Flask : Flask est utilisé comme framework principal pour gérer les requêtes HTTP et créer les différents points de terminaison.
+Utilisation de BeautifulSoup : La bibliothèque BeautifulSoup est utilisée pour l'analyse HTML et l'extraction des données des articles à partir du site Web spécifié.
+Stockage des données : Les données extraites des articles sont stockées dans une liste nommée articles.
+Limitation du scraping : Le scraping est limité aux premiers 10 articles trouvés sur le site pour des raisons de performance et pour éviter de surcharger le serveur distant.
+Gestion des délais : L'application utilise des délais aléatoires entre les requêtes pour éviter d'être bloquée par le site Web cible en cas de demandes trop fréquentes, ce qui peut être considéré comme une activité de type "bot" et entraîner le blocage de l'adresse IP.
