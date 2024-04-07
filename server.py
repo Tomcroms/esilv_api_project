@@ -13,6 +13,20 @@ app = Flask(__name__)
 articles = []
 
 
+@app.route('/')
+def home():
+    message = """
+    Bienvenue sur l'API de l'équipe Clément Muret, Maxime Le Floch et Thomas Laumonier<br>
+    Voici les endpoints disponibles :<br>
+    - /get_data : récupère une liste d'articles sur le site de actuia.com (à utiliser en premier !)<br>
+    - /articles <br>
+    - /articles/numberOfArticle (de 1 à 10 max)<br>
+    - /ml <br>
+    - /ml/numberOfArticle (de 1 à 10 max)<br>
+    """
+    return message
+
+
 # Récupère une liste d'articles sur le site de actuia
 @app.route('/get_data', methods=['GET'])
 def get_data():
