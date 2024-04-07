@@ -27,3 +27,14 @@ You can choose website about many subject like:
     2. Inside the branch, create a working directory named after the chosen site.
     3. Add a file named composition.txt that lists the members of the group.
     4. Add a section below these rules to explain your project, describe the created endpoints and their uses, and provide examples.
+
+
+### Expplications
+
+Le endpoint get_data doit être appelé avant les autres pour récupérer les données du site actuia.com
+Vous pouvez ensuite appeler les autres endpoints.
+
+Même en forçant le codage en utf-8 les caractères spéciaux ne s'affiche pas correctement sur le navigateur cependant ils sont correctement décodés dans l'environnement python.
+Cela ne nuit donc pas à l'étude des articles. 
+
+On  utilise la bibliothèque TextBlob pour le ml et l'étude des sentiments, cela se base sur une liste de mots pré établies pour évaluer le sentiment général de l'article. 
