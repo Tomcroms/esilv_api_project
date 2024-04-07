@@ -29,7 +29,7 @@ You can choose website about many subject like:
     4. Add a section below these rules to explain your project, describe the created endpoints and their uses, and provide examples.
 
 
-### Expplications
+### Explications
 
 Le endpoint get_data doit être appelé avant les autres pour récupérer les données du site actuia.com
 Vous pouvez ensuite appeler les autres endpoints.
